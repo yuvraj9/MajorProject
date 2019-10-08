@@ -4,7 +4,8 @@
         name: "boto"
         state: present
      - ec2:
-        aws_access_key: aaaaaaaaaaa       aws_secret_key: 0Ci5DbbbbbbbbbbbbbbbXzeUlm
+        aws_access_key: aaaaaaaaaaa       
+        aws_secret_key: 0Ci5DbbbbbbbbbbbbbbbXzeUlm
         instance_type: t2.micro
         image: ami-5b673c34
         region: ap-south-1
