@@ -1,0 +1,6 @@
+- hosts: localhost
+  tasks:
+   - service:
+      name: '{{ x }}'
+      state: started
+      enabled: yes

@@ -1,0 +1,54 @@
+- hosts: 192.168.43.189
+  tasks:
+      
+    - get_url:
+        url: ftp://192.168.43.189/pub/jdk-8u171-linux-x64.rpm
+        dest: /root/jdk-8u171-linux-x64.rpm
+    - command: rpm -ivh /root/jdk-8u171-linux-x64.rpm
+      ignore_errors: yes
+    - get_url:
+        url: ftp://192.168.43.189/pub/hadoop-1.2.1-1.x86_64.rpm
+        dest: /root/hadoop-1.2.1-1.x86_64.rpm
+
+    - command: rpm -ivh  /root/hadoop-1.2.1-1.x86_64.rpm --force
+      ignore_errors: yes
+    - lineinfile:
+         path: /root/.bashrc
+         line: "{{ item }}"
+      with_items:
+          - "export JAVA_HOME=/usr/java/jdk1.8.0_171-amd64"
+          - "export PATH=/usr/java/jdk1.8.0_171-amd64/bin:$PATH"
+    - file:
+       path: /master
+       state: directory
+    - command: iptables -F
+    - replace:
+        path: /etc/hadoop/hdfs-site.xml
+        regexp: '<configuration>\n<property>\n<name>dfs.name.dir</name\n<value>/master</value>\n</property>'
+        replace: '<configuration>'
+ 
+    - replace:
+        path: /etc/hadoop/hdfs-site.xml
+        regexp: '<configuration>'
+        regexp: '<configuration>\n<property>\n<name>dfs.name.dir</name\n<value>/master</value>\n</property>'
+
+    - replace:
+        path: /etc/hadoop/core-site.xml
+        regexp: '<configuration>\n<property>\n<name>fs.default.name</name\n<value>hdfs://192.168.43.189:9001</value>\n</property>'
+        replace: '<configuration>'
+
+    - replace:
+        path: /etc/hadoop/hdfs-site.xml
+        regexp: '<configuration>'
+        regexp: '<configuration>\n<property>\n<name>fs.default.name</name\n<value>hdfs://192.168.43.189:9001</value>\n</property>'
+
+    - command: echo Y | hadoop namenode -format
+    - command: hadoop-daemon.sh start namenode
+
+    - lineinfile:
+         path: /etc/rc.d/rc.local
+         line: "{{ item }}"
+      with_items:
+          - "iptables -F"
+          - "hadoop-daemon.sh start namenode"
+    - command: chmod +x /etc/rc.d/rc.local

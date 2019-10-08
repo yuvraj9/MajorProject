@@ -1,0 +1,5 @@
+- hosts: localhost
+  tasks:
+   - package:
+      name: "httpd"
+      state: present

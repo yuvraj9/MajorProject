@@ -1,0 +1,14 @@
+- hosts: localhost
+  tasks:
+   - pip:
+      name: "boto3"
+      state: present
+   - pip:
+      name: "botocore"
+      state: present
+   - aws_s3:
+      aws_access_key: "Aaaaaaaaaaa35N2SA"
+      aws_secret_key: "fynaaaaaaaaaaaaaaaaahruLfVI"
+      bucket: "{{ x }}"
+      mode: create
+      permission: public-read

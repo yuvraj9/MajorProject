@@ -1,0 +1,5 @@
+- hosts: localhost
+  tasks:
+   - archive:
+      path: '{{ x }}'
+      dest: '{{ y }}'

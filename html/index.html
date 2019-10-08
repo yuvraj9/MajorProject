@@ -1,0 +1,69 @@
+<style>
+  .speech {border: 1px solid #DDD; width: 300px; padding: 0; margin: 0}
+  .speech input {border: 0; width: 240px; display: inline-block; height: 30px;}
+  .speech img {float: right; width: 40px }
+</style>
+
+<!-- Search Form -->
+<form id="labnol" method="get" action="http://192.168.43.171/cgi-bin/speech.py">
+  <div class="speech">
+    <input type="text" name="q" id="transcript" placeholder="Speak" />
+    <img onclick="startDictation()" src="//i.imgur.com/cHidSVu.gif" />
+  </div>
+</form>
+
+<!-- HTML5 Speech Recognition API -->
+<script>
+  function startDictation() {
+
+    if (window.hasOwnProperty('webkitSpeechRecognition')) {
+
+      var recognition = new webkitSpeechRecognition();
+
+      recognition.continuous = false;
+      recognition.interimResults = false;
+
+      recognition.lang = "en-US";
+      recognition.start();
+
+      recognition.onresult = function(e) {
+        document.getElementById('transcript').value
+                                 = e.results[0][0].transcript;
+        recognition.stop();
+        document.getElementById('labnol').submit();
+      };
+
+      recognition.onerror = function(e) {
+        recognition.stop();
+      }
+
+    }
+}
+</script>
+
+
+<a href='http://192.168.43.171/shellinabox.html'>Open the Host Shell Terminal</a>
+</br>
+<a href='http://192.168.43.171/cgi-bin/command.py'>Run a Command</a>
+</br>
+<a href='http://192.168.43.171/cgi-bin/package.py'>Install a software</a>
+</br>
+<a href='http://192.168.43.171/cgi-bin/service.py'>Start a Service</a>
+</br>
+<a href='http://192.168.43.171/cgi-bin/stop_service.py'>Stop a Service</a>
+</br>
+<a href='http://192.168.43.171/cgi-bin/mail.py'>Send An E-mail</a>
+</br>
+<a href='http://192.168.43.171/cgi-bin/d.py'>Launch a Container</a>
+</br>
+<a href='http://192.168.43.171/cgi-bin/run.py'>Manage the Containers</a>
+</br>
+<a href='http://192.168.43.171/cgi-bin/archive.py'>Create an Archive</a>
+</br>
+<a href='http://192.168.43.171/cgi-bin/ec2.py'>Launch an EC2 instance.</a>
+</br>
+<a href='http://192.168.43.171/cgi-bin/s3.py'>Launch S3 bucket.</a>
+</br>
+<a href='http://192.168.43.171/cgi-bin/hadoop.py'>Setup Hadoop Cluster.</a>
+</br>
+
